@@ -9,8 +9,9 @@
 import Combine
 import Foundation
 import SwiftUI
+#if os(iOS)
 import UIKit
-
+#endif
 // TODO: Callbacks & functions:
 // - Did select node - only support single selection
 // - Select/Deselect node
@@ -82,9 +83,9 @@ public struct Node: Identifiable, Equatable {
     public var value: Double? = nil
     
     public var showName: Bool = true
+    #if os(iOS)
     public var image: UIImage? = nil
     public var backgroundColor: UIColor? = nil
-
     // Internal values
     var computedValue: Double = 0.0
     var computedBackgroundColor: UIColor = .systemGray
@@ -98,6 +99,24 @@ public struct Node: Identifiable, Equatable {
         self.backgroundColor = backgroundColor
         self.children = children
     }
+    #else
+    public var image: NSImage? = nil
+    public var backgroundColor: NSColor? = nil
+    // Internal values
+    var computedValue: Double = 0.0
+    var computedBackgroundColor: NSColor = .systemGray
+
+    public init(name: String, showName: Bool = true, image: NSImage? = nil,
+                value: Double? = nil, backgroundColor: NSColor? = nil, children: [Node] = []) {
+        self.name = name
+        self.showName = showName
+        self.image = image
+        self.value = value
+        self.backgroundColor = backgroundColor
+        self.children = children
+    }
+    #endif
+    
 }
 
 public enum CalculationMode: Hashable {

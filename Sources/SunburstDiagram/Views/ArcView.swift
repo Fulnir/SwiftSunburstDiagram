@@ -56,9 +56,15 @@ struct ArcLabel: View {
     
     var body: some View {
         VStack() {
+            #if os(iOS)
             IfLet(arc.node.image) { image in
                 Image(uiImage: image)
             }
+            #else
+            IfLet(arc.node.image) { image in
+                Image(nsImage: image)
+            }
+            #endif
             if !arc.isTextHidden {
                 Text(arc.node.name)
             }
